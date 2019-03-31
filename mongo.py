@@ -33,11 +33,11 @@ def reg():
             if bcrypt.check_password_hash(response['password'], password):
                 access_token = create_access_token(
                     identity={'user_id': response['user_id']})
-                return jsonify({'token': access_token})
+                return jsonify({'token': access_token, 'new': False})
             else:
                 return jsonify({'error': 'invalid username and password'})
         else:
-            return jsonify({'result': 'no result found'})
+            return jsonify({'error': 'no result found'})
 
     id = users.insert({
         'user_id': userid,
@@ -48,7 +48,24 @@ def reg():
     new_user = users.find_one({'_id': id})
     access_token = create_access_token(
         identity={'user_id': new_user['user_id']})
-    return jsonify({'token': access_token})
+    return jsonify({'token': access_token, 'new': True})
+
+
+@app.route('/users/guest')
+def guest():
+    users = mongo.db.users
+    guest_id = users.insert({
+        'user_id': 'guest',
+        'password': 'guest',
+        'created': datetime.utcnow()
+    })
+    return jsonify({'guest_id': str(guest_id)})
+
+
+@app.route('/users/guestLogout/<id>')
+def guestLogout(id):
+    users = mongo.db.users
+    return jsonify({'result': 'success'}) if not users.delete_one({'user_id': id}) is None else jsonify({'result': 'fail'})
 
 
 if __name__ == '__main__':
