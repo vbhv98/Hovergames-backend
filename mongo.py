@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 app.config['MONGO_DBNAME'] = 'users'
 app.config['MONGO_URI'] = 'mongodb://vbhv98:hovergames69@ds031257.mlab.com:31257/hover-games'
-app.config['JWT_SECRET_KEY'] = 'secret'
+app.config['JWT_SECRET_KEY'] = 'xyzabc'
 
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
