@@ -8,6 +8,8 @@ from flask_jwt_extended import JWTManager, create_access_token
 
 app = Flask(__name__)
 
+port = int(os.environ.get('PORT', 5000))
+
 app.config['MONGO_DBNAME'] = 'users'
 app.config['MONGO_URI'] = 'mongodb://vbhv98:hovergames69@ds031257.mlab.com:31257/hover-games'
 app.config['JWT_SECRET_KEY'] = 'xyzabc'
@@ -69,4 +71,4 @@ def guestLogout(id):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=port)
